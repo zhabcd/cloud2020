@@ -1,0 +1,85 @@
+# 建立对应数据库，并执行sql文件夹里面sql文件
+
+http://localhost.com:7001/
+http://localhost.com:7002/
+http://eureka7001.com:7001/
+http://eureka7002.com:7002/
+
+http://localhost:8001/actuator/health { "status": "UP" }检查健康状况
+http://localhost:8002/actuator/health
+
+http://localhost:8001/payment/discovery # 服务发现
+http://localhost:8004/payment/zk #zk服务注册发现
+http://localhost/consumer/payment/zk #zk服务调用
+http://localhost:8500/ #consul
+http://localhost:8006/consul/payment/consul #consul服务注册
+
+http://localhost:8001/payment/hystrix/ok/3
+http://localhost:8001/payment/hystrix/timeout/3
+# hystrix服务降级
+http://localhost/consumer/payment/hystrix/ok/3
+http://localhost/consumer/payment/hystrix/timeout/3
+
+http://localhost:8001/payment/circuit/1 #hystrix服务熔断
+
+http://localhost:9001/hystrix #Hystrix Dashboard
+http://localhost:8001/hystrix.stream #Hystrix Dashboard监控地址
+#gateway初步搭建好以后访问下面两个网址结果一致
+http://localhost:8001/payment/get?id=3
+http://localhost:9527/payment/get?id=3
+http://localhost:8001/payment/lb
+http://localhost:9527/payment/lb
+
+# gateway转发
+http://localhost:9527/guonei http://news.baidu.com/guonei
+http://localhost:9527/guoji http://news.baidu.com/ji
+
+http://localhost:9527/payment/lb #gateway动态路由
+
+curl http://localhost:9527/payment/lb --cookie "a=bb" #路由工厂选址路由
+
+http://config-3344.com:3344/master/config-dev.yml #访问远程git文件
+http://localhost:3355/configInfo #其它项目访问远程git文件
+curl -X POST "http://localhost:3355/actuator/refresh" #手动刷新
+curl -X POST "http://localhost:3344/actuator/bus-refresh" #一次刷新，多次生效
+http://config-3344.com:3344/config-dev.yml
+http://localhost:3355/configInfo
+http://localhost:3366/configInfo
+
+#只通知一个，不通知所有
+curl -X POST "http://localhost:3344/actuator/bus-refresh/config-client:3355"
+
+https://dl.bintray.com/openzipkin/maven/io/zipkin/java/zipkin-server/2.12.9/zipkin-server-2.12.9.jar
+https://dl.bintray.com/openzipkin/maven/io/zipkin/java/zipkin-server/2.12.9/zipkin-server-2.12.9-exec.jar
+
+java -jar zipkin-server-2.12.9-exec.jar
+http://localhost:9411/zipkin/
+
+# nacos服务中心
+http://localhost:83/consumer/payment/nacos/1
+http://localhost:9001/payment/nacos/1
+http://localhost:9002/payment/nacos/1
+
+# sentinel 测试 访问后才能看到
+http://localhost:8401/testA
+http://localhost:8401/testB
+
+http://localhost:3377/config/info # nacos配置中心
+
+http://localhost:8401/testHotKey?p1=a&p2=b
+
+#nocas 集合ribbon负载均衡
+http://localhost:9001/paymentSQL/1
+http://localhost:9004/paymentSQL/1
+http://localhost:84/consumer/fallback/1
+
+http://localhost:84/consumer/paymentSQL/1
+
+# 雪花算法
+http://localhost:2001/snowflake
+# 创建订单
+http://localhost:2001/order/create?userId=1&productId=1&count=10&money=100
+# 生产推荐seata用1.0-GA
+hosts:
+127.0.0.1   eureka7001.com
+127.0.0.1   eureka7002.com
